@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimento</title>
+    <style>
+        /* ================================== */
+        /* CSS STYLES                         */
+        /* ================================== */
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 10px;
+        }
+
+        /* --- Seção de Boas-vindas/Início --- */
+        .header-welcome {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            color: #1a73e8; /* Azul primário */
+            font-size: 2em;
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-size: 1.2em;
+            color: #555;
+            margin-top: 0;
+        }
+
+        .atendimento {
+            color: #1a73e8;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .atendimento:hover {
+            color: #4285f4;
+            text-decoration: underline;
+        }
+
+        /* --- Seção de Busca de Pacientes --- */
+        .procurar_pacientes {
+            margin-bottom: 30px;
+        }
+
+        .procurar_pacientes fieldset {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .procurar_pacientes legend {
+            padding: 0 10px;
+            font-size: 1.5em;
+            color: #1a73e8;
+        }
+        
+        /* Estilo para o label e input juntos */
+        .procurar_pacientes label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        #buscar {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        input[type="button"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.3s;
+        }
+
+        input[type="button"]:hover {
+            background-color: #0056b3;
+        }
+
+        /* --- Seção de Pacientes Encontrados (Tabela) --- */
+        .pacientes_encontrados {
+            display: none; /* Inicia oculto, será exibido pelo JS */
+            margin-bottom: 30px;
+        }
+        
+        .pacientes_encontrados table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden; /* Garante que bordas arredondadas funcionem */
+        }
+        
+        .pacientes_encontrados caption {
+            font-size: 1.3em;
+            font-weight: bold;
+            padding: 10px;
+            color: #333;
+            text-align: left;
+        }
+
+        .pacientes_encontrados th, .pacientes_encontrados td {
+            border: 1px solid #dee2e6;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .pacientes_encontrados thead th {
+            background-color: #f8f9fa;
+            color: #343a40;
+            font-weight: bold;
+        }
+
+        .pacientes_encontrados tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .pacientes_encontrados tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .pacientes_encontrados tbody tr:hover {
+            background-color: #e2f0ff; /* Cor ao passar o mouse */
+        }
+        
+        /* --- Seção de Paciente Selecionado (Detalhes) --- */
+        .paciente_selecionado {
+            display: none; /* Inicia oculto, será exibido pelo JS */
+        }
+
+        .paciente_selecionado fieldset {
+            border: 1px solid #ddd;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            background-color: #fff;
+        }
+
+        .paciente_selecionado legend h2 {
+            color: #1a73e8;
+            font-size: 1.5em;
+        }
+        
+        .paciente_selecionado input[type="text"], 
+        .paciente_selecionado input[type="tel"],
+        .paciente_selecionado input[type="email"] {
+            width: 100%; /* Ocupa a largura total */
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Inclui padding e borda no width */
+            background-color: #f8f9fa; /* Campos desabilitados */
+            color: #555;
+        }
+        
+        /* Inputs dentro do fieldset Contato de Emergência */
+        .paciente_selecionado fieldset fieldset input {
+            background-color: #fff; /* Campos editáveis */
+            border: 1px solid #ddd;
+        }
+        
+        /* Tabela de Histórico */
+        .paciente_selecionado .historico table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #fff;
+        }
+        
+        .paciente_selecionado .historico th, .paciente_selecionado .historico td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+            text-align: left;
+        }
+        
+        .paciente_selecionado .historico thead th {
+            background-color: #f8f9fa;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header-welcome">
+            <h1> Olá <span id="userName">Usuário</span>, Bom dia! </h1>
+
+            <h2>Vamos iniciar um novo <a
+                    href="http://portalrh.supernorte.com.br/portalrh/Account/Login?ReturnUrl=%2fportalrh" target="_blank"
+                    class="atendimento"> Atendimento</a>?</h2>
+        </div>
+
+        <div class="procurar_pacientes">
+            <form id="searchForm">
+                <fieldset>
+                    <legend>
+                        <h2>Paciente</h2>
+                    </legend>
+                    <label for="buscar">Informe dados para busca do paciente: 
+                        <input type="text" name="buscar" id="buscar"
+                            placeholder="Nome, CPF, RG ou Número de Cadastro" required>
+                    </label>
+                    <input type="button" value="Procurar" id="btnProcurar">
+                </fieldset>
+            </form>
+        </div>
+
+        <div class="pacientes_encontrados" id="resultadosBusca">
+            <table id="tabelaPacientes">
+                <caption>
+                    <h3>Selecione o Paciente</h3>
+                </caption>
+                <thead>
+                    <tr>
+                        <th>Registro</th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>RG</th>
+                        <th>CPF</th>
+                        <th>Ação</th> </tr>
+                </thead>
+                <tbody>
+                    </tbody>
+            </table>
+            <p id="noResults" style="display:none; text-align:center; color:red; margin-top:15px;">Nenhum paciente encontrado.</p>
+        </div>
+
+        <div class="paciente_selecionado" id="detalhesPaciente">
+            <form id="pacienteForm">
+                <fieldset>
+                    <legend>
+                        <h2>Paciente Selecionado</h2>
+                    </legend>
+                    <div class="paciente-dados">
+                        <input type="text" name="rgpaciente" id="rgpaciente" placeholder="Registro" disabled>
+                        <input type="text" name="nome" id="nomePaciente" placeholder="Nome Completo" disabled>
+                        <input type="tel" name="telefone" id="telefonePaciente" placeholder="Telefone" disabled>
+                        <input type="email" name="email" id="emailPaciente" placeholder="E-mail" disabled>
+                        
+                        <fieldset>
+                            <legend>
+                                <h4>Contato de Emergência</h4>
+                            </legend>
+                            <input type="text" name="em_nome" id="em_nome" placeholder="Nome">
+                            <input type="tel" name="em_telefone" id="em_telefone" placeholder="Telefone">
+                            <input type="text" name="em_parentesco" id="em_parentesco" placeholder="Grau parentesco" required>
+                        </fieldset>
+                    </div>
+                </fieldset>
+            </form>
+            
+            <fieldset class="historico">
+                <table border="2" id="historicoTabela">
+                    <caption><h2>Histórico de Visitas do Paciente</h2></caption>
+                    <thead>
+                        <tr>
+                            <th>Data</th>
+                            <th>Tipo Atendimento</th>
+                            <th>Medida</th>
+                            <th>Atendente</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        </tbody>
+                </table>
+            </fieldset>
+            
+            <div style="text-align: right; margin-top: 20px;">
+                <button id="btnNovoAtendimento" style="padding: 10px 20px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Iniciar Novo Atendimento</button>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // ==================================
+        //         JAVASCRIPT LOGIC
+        // ==================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const userNameElement = document.getElementById('userName');
+            const buscarInput = document.getElementById('buscar');
+            const btnProcurar = document.getElementById('btnProcurar');
+            const resultadosBuscaDiv = document.getElementById('resultadosBusca');
+            const tabelaPacientesBody = document.querySelector('#tabelaPacientes tbody');
+            const detalhesPacienteDiv = document.getElementById('detalhesPaciente');
+            const btnNovoAtendimento = document.getElementById('btnNovoAtendimento');
+            const noResultsMessage = document.getElementById('noResults');
+
+            // --- 1. Dados Fictícios de Exemplo ---
+            const mockPacientes = [
+                { registro: '202304001', nome: 'Fulano Silva Beltrano', telefone: '(94) 98888-2222', rg: '525536', cpf: '888.666.552-78', email: 'fulano@exemplo.com.br', em_nome: 'Gilda Beltrana', em_tel: '(94) 99999-1111', em_parentesco: 'Mãe' },
+                { registro: '202304002', nome: 'Ciclana Souza Santos', telefone: '(61) 98765-4321', rg: '123456', cpf: '111.222.333-44', email: 'ciclana@exemplo.com.br', em_nome: 'José Santos', em_tel: '(61) 99876-5432', em_parentesco: 'Pai' },
+                { registro: '202304003', nome: 'Elias Teixeira Neto', telefone: '(11) 99000-0000', rg: '789012', cpf: '555.444.333-22', email: 'elias@exemplo.com.br', em_nome: 'Paula Teixeira', em_tel: '(11) 99111-2222', em_parentesco: 'Esposa' }
+            ];
+            
+            const mockHistorico = [
+                { data: '2023-10-01', tipo: 'Aferição de Pressão', medida: '120/80 mm/Hg', atendente: 'Dr. House' },
+                { data: '2023-09-15', tipo: 'Medição de Glicemia', medida: '95 mg/dL', atendente: 'Enf. Maria' },
+            ];
+
+            // --- 2. Simulação de Boas-vindas (substituir {Fulano}) ---
+            userNameElement.textContent = 'Atendente Exemplo';
+
+            // --- 3. Lógica de Busca de Pacientes ---
+            btnProcurar.addEventListener('click', () => {
+                const termoBusca = buscarInput.value.toLowerCase().trim();
+                
+                // Oculta resultados anteriores e detalhes
+                resultadosBuscaDiv.style.display = 'none';
+                detalhesPacienteDiv.style.display = 'none';
+                tabelaPacientesBody.innerHTML = '';
+                noResultsMessage.style.display = 'none';
+                
+                if (termoBusca.length < 3) {
+                    alert('Por favor, digite pelo menos 3 caracteres para a busca.');
+                    return;
+                }
+                
+                // Simula o filtro
+                const pacientesEncontrados = mockPacientes.filter(p => 
+                    p.nome.toLowerCase().includes(termoBusca) ||
+                    p.cpf.includes(termoBusca) ||
+                    p.rg.includes(termoBusca) ||
+                    p.registro.includes(termoBusca)
+                );
+
+                if (pacientesEncontrados.length > 0) {
+                    // Popula a tabela com os resultados
+                    pacientesEncontrados.forEach(paciente => {
+                        const row = tabelaPacientesBody.insertRow();
+                        row.innerHTML = `
+                            <td>${paciente.registro}</td>
+                            <td>${paciente.nome}</td>
+                            <td>${paciente.telefone}</td>
+                            <td>${paciente.rg}</td>
+                            <td>${paciente.cpf}</td>
+                            <td><button data-registro="${paciente.registro}" class="btn-selecionar">Selecionar</button></td>
+                        `;
+                        // Adiciona o paciente completo como um atributo de dados (para fácil recuperação)
+                        row.dataset.paciente = JSON.stringify(paciente);
+                    });
+                    
+                    // Exibe a tabela
+                    resultadosBuscaDiv.style.display = 'block';
+                    
+                } else {
+                    // Exibe mensagem de "não encontrado"
+                    resultadosBuscaDiv.style.display = 'block';
+                    noResultsMessage.style.display = 'block';
+                }
+            });
+
+            // --- 4. Lógica de Seleção de Paciente e Exibição de Detalhes ---
+            tabelaPacientesBody.addEventListener('click', (e) => {
+                if (e.target.classList.contains('btn-selecionar')) {
+                    const row = e.target.closest('tr');
+                    const pacienteData = JSON.parse(row.dataset.paciente);
+                    
+                    // Oculta a tabela de busca
+                    resultadosBuscaDiv.style.display = 'none';
+                    
+                    // Preenche os campos de detalhes
+                    document.getElementById('rgpaciente').value = pacienteData.registro;
+                    document.getElementById('nomePaciente').value = pacienteData.nome;
+                    document.getElementById('telefonePaciente').value = pacienteData.telefone;
+                    document.getElementById('emailPaciente').value = pacienteData.email;
+                    
+                    // Preenche Contato de Emergência
+                    document.getElementById('em_nome').value = pacienteData.em_nome;
+                    document.getElementById('em_telefone').value = pacienteData.em_tel;
+                    document.getElementById('em_parentesco').value = pacienteData.em_parentesco;
+                    
+                    // Popula o Histórico (usando dados mockados para todos, mas em um cenário real seria filtrado por paciente)
+                    const historicoBody = document.querySelector('#historicoTabela tbody');
+                    historicoBody.innerHTML = ''; // Limpa antes de popular
+                    mockHistorico.forEach(hist => {
+                        const row = historicoBody.insertRow();
+                        row.innerHTML = `
+                            <td>${hist.data}</td>
+                            <td>${hist.tipo}</td>
+                            <td>${hist.medida}</td>
+                            <td>${hist.atendente}</td>
+                        `;
+                    });
+
+                    // Exibe a seção de detalhes
+                    detalhesPacienteDiv.style.display = 'block';
+                    window.scrollTo({ top: detalhesPacienteDiv.offsetTop, behavior: 'smooth' }); // Rola para os detalhes
+                }
+            });
+            
+            // --- 5. Botão Iniciar Novo Atendimento (Ação Final) ---
+            btnNovoAtendimento.addEventListener('click', () => {
+                const nomePaciente = document.getElementById('nomePaciente').value;
+                alert(`Simulação: Iniciando novo atendimento para o paciente ${nomePaciente}.`);
+                // Em um cenário real: redirecionaria para a tela de registro de atendimento ou abriria um modal.
+            });
+            
+            // Oculta a seção de detalhes ao carregar
+            detalhesPacienteDiv.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

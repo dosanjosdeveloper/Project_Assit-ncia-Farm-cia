@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticação do Sistema</title>
+    <style>
+        /* ================================== */
+        /* CSS STYLES                         */
+        /* ================================== */
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #007bff; /* Fundo azul primário (como um sistema corporativo) */
+            display: flex;
+            justify-content: center; /* Centraliza horizontalmente */
+            align-items: center; /* Centraliza verticalmente */
+            min-height: 100vh; /* Ocupa toda a altura da viewport */
+            margin: 0;
+        }
+
+        .box_login {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+
+        .img_logo_fm {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 50%; /* Torna a imagem redonda */
+            margin-bottom: 20px;
+            border: 3px solid #f8f9fa;
+        }
+
+        hr {
+            border: 0;
+            height: 1px;
+            background-color: #dee2e6;
+            margin: 20px 0;
+        }
+
+        h1 {
+            color: #343a40;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 30px;
+        }
+
+        /* Estilo para os campos de input */
+        input[type="text"],
+        input[type="password"] {
+            width: 90%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 6px;
+            box-sizing: border-box; /* Inclui padding e borda no width */
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+            outline: none;
+        }
+
+        /* Estilo para o botão de acesso */
+        .btn_acesso {
+            width: 90%;
+            padding: 12px 15px;
+            border: none;
+            border-radius: 6px;
+            background-color: #28a745; /* Verde para ação principal */
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+            margin-top: 10px;
+        }
+
+        .btn_acesso:hover {
+            background-color: #218838;
+        }
+        
+        .btn_acesso:active {
+            transform: scale(0.99);
+        }
+
+        /* Estilo para a mensagem de feedback */
+        #feedback {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+        
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="box_login">
+        <div>
+            <img src="resources/imgs/LogoFarmacia_945x945.jpeg" alt="Logo Farmacia Rede Minas" class="img_logo_fm">
+        </div>
+        <hr>
+        <form id="loginForm" action="#" method="POST">
+            <h1>Autenticação</h1>
+            <input type="text" name="login" id="login" placeholder="Usuário" required><br><br>
+            <input type="password" name="senha" id="senha" placeholder="Senha" required><br><br>
+            <input type="button" value="Acessar" class="btn_acesso" id="btnAcessar">
+        </form>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        // ==================================
+        //         JAVASCRIPT LOGIC
+        // ==================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnAcessar = document.getElementById('btnAcessar');
+            const loginInput = document.getElementById('login');
+            const senhaInput = document.getElementById('senha');
+            const feedbackDiv = document.getElementById('feedback');
+
+            // Usuário e Senha de Teste
+            const USUARIO_CORRETO = 'admin';
+            const SENHA_CORRETA = '12345';
+            
+            // Função para exibir mensagem
+            const showFeedback = (message, type) => {
+                feedbackDiv.textContent = message;
+                feedbackDiv.className = type;
+                feedbackDiv.style.display = 'block';
+                
+                // Oculta a mensagem após 4 segundos
+                setTimeout(() => {
+                    feedbackDiv.style.display = 'none';
+                }, 4000);
+            };
+
+            // Lógica de Autenticação
+            btnAcessar.addEventListener('click', (e) => {
+                e.preventDefault(); // Impede o comportamento padrão do botão se fosse submit
+                
+                const login = loginInput.value.trim();
+                const senha = senhaInput.value.trim();
+                
+                // 1. Validação básica (campos vazios)
+                if (!login || !senha) {
+                    showFeedback('Por favor, preencha o usuário e a senha.', 'error');
+                    return;
+                }
+                
+                // 2. Simulação de Autenticação
+                if (login === USUARIO_CORRETO && senha === SENHA_CORRETA) {
+                    showFeedback('Acesso concedido! Redirecionando...', 'success');
+                    
+                    // Simulação de redirecionamento após 2 segundos
+                    setTimeout(() => {
+                        alert('Simulação: Redirecionamento para a página principal.');
+                        // window.location.href = '/dashboard.html'; // Descomente em um ambiente real
+                    }, 2000);
+                    
+                } else {
+                    showFeedback('Usuário ou senha incorretos. Tente novamente.', 'error');
+                    // Limpar a senha para segurança
+                    senhaInput.value = '';
+                    loginInput.focus();
+                }
+            });
+            
+            // Permite o login ao pressionar Enter nos campos (melhora a usabilidade)
+            document.getElementById('loginForm').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault(); // Impede o submit padrão
+                    btnAcessar.click(); // Chama a função de clique do botão
+                }
+            });
+
+        });
+    </script>
+</body>
+</html>

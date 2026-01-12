@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Pacientes</title>
+    <style>
+        /* ================================== */
+        /* CSS STYLES            */
+        /* ================================== */
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #007bff;
+            margin-bottom: 30px;
+        }
+
+        /* Contêiner principal do formulário */
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        form fieldset {
+            border: 1px solid #ccc;
+            padding: 20px;
+            margin-bottom: 25px;
+            border-radius: 8px;
+        }
+
+        form fieldset legend {
+            padding: 0 10px;
+            color: #007bff;
+            font-weight: bold;
+        }
+
+        form fieldset h2, form fieldset h3 {
+            margin: 0;
+            font-size: 1.2em;
+        }
+
+        /* Estilo para agrupar inputs em cada fieldset */
+        .input-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px; /* Espaço entre os inputs */
+            margin-top: 15px;
+        }
+
+        /* Estilo base para todos os inputs de texto/número/tel/email */
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"] {
+            flex-grow: 1; /* Permite que o input cresça */
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            min-width: 180px; /* Garante que os campos não fiquem muito estreitos */
+        }
+
+        input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        /* Estilo para a área dos botões */
+        .button-group {
+            text-align: right;
+            margin-top: 30px;
+        }
+
+        input[type="button"] {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Botão Incluir Cadastro */
+        input[value="Incluir Cadastro"] {
+            background-color: #28a745;
+            color: white;
+        }
+
+        input[value="Incluir Cadastro"]:hover {
+            background-color: #218838;
+            transform: translateY(-2px);
+        }
+
+        /* Botão Desistir */
+        input[value="Desistir"] {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        input[value="Desistir"]:hover {
+            background-color: #c82333;
+            transform: translateY(-2px);
+        }
+
+        /* Mensagem de sucesso/erro (oculta por padrão) */
+        #message {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cadastro de Pacientes</h1>
+    <div class="container">
+        <form id="cadastroForm">
+            <fieldset>
+                <Legend>
+                    <h2>Dados Pessoais</h2>
+                </Legend>
+                <div class="input-group">
+                    <input type="text" name="nome" id="nome" placeholder="Nome completo" required>
+                    <input type="text" name="cpf" id="cpf" placeholder="CPF" required maxlength="14">
+                    <input type="text" name="rg" id="rg" placeholder="RG" required>
+                    <input type="tel" name="telefone" id="telefone" placeholder="Telefone" required maxlength="15">
+                    <input type="email" name="email" id="email" placeholder="E-mail" required>
+                </div>
+
+                <fieldset>
+                    <legend>
+                        <h3>Endereço</h3>
+                    </legend>
+                    <div class="input-group">
+                        <input type="text" name="rua" id="rua" placeholder="Rua:" required>
+                        <input type="number" name="numero" id="numero" placeholder="Número" required>
+                        <input type="text" name="referen" id="referen" placeholder="Referência">
+                        <input type="text" name="cep" id="cep" placeholder="CEP" required maxlength="9">
+                        <input type="text" name="bairro" id="bairro" placeholder="Bairro" required>
+                        <input type="text" name="cidade" id="cidade" placeholder="Cidade" required>
+                        <input type="text" name="estado" id="estado" placeholder="Estado" required>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <legend>
+                        <h3>Contato de Emergência</h3>
+                    </legend>
+                    <div class="input-group">
+                        <input type="text" name="em_nome" id="em_nome" placeholder="Nome" required>
+                        <input type="tel" name="em_telefone" id="em_telefone" placeholder="Telefone" required maxlength="15">
+                        <input type="text" name="em_parentesco" id="em_parentesco" placeholder="Grau parentesco" required>
+                    </div>
+                </fieldset>
+            </fieldset>
+
+            <div class="button-group">
+                <input type="button" value="Desistir" id="btnDesistir">
+                <input type="button" value="Incluir Cadastro" id="btnIncluir">
+            </div>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        // ==================================
+        //         JAVASCRIPT LOGIC
+        // ==================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('cadastroForm');
+            const btnIncluir = document.getElementById('btnIncluir');
+            const btnDesistir = document.getElementById('btnDesistir');
+            const messageDiv = document.getElementById('message');
+
+            const cpfInput = document.getElementById('cpf');
+            const telefoneInput = document.getElementById('telefone');
+            const emTelefoneInput = document.getElementById('em_telefone');
+            const cepInput = document.getElementById('cep');
+
+            // --- Funções de Máscara (Formatação) ---
+
+            // Formatação para CPF (000.000.000-00)
+            const maskCPF = (value) => {
+                // Remove tudo que não for dígito
+                value = value.replace(/\D/g, "");
+                // Adiciona os pontos e o hífen
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d)/, "$1.$2");
+                value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+                return value;
+            };
+
+            // Formatação para Telefone/Celular (Ex: (00) 00000-0000 ou (00) 0000-0000)
+            const maskTelefone = (value) => {
+                value = value.replace(/\D/g, "");
+                value = value.replace(/^(\d{2})(\d)/g, "($1) $2"); // Adiciona parênteses e espaço (DDD)
+                if (value.length > 9) { // Verifica se é celular ou fixo para o próximo grupo de dígitos
+                    value = value.replace(/(\d{5})(\d)/, "$1-$2"); // Celular: 9XXXX-XXXX
+                } else {
+                    value = value.replace(/(\d{4})(\d)/, "$1-$2"); // Fixo: XXXX-XXXX
+                }
+                return value;
+            };
+
+            // Formatação para CEP (00000-000)
+            const maskCEP = (value) => {
+                value = value.replace(/\D/g, "");
+                value = value.replace(/(\d{5})(\d)/, "$1-$2");
+                return value;
+            };
+
+            // --- Aplicação das Máscaras ---
+            cpfInput.addEventListener('input', (e) => {
+                e.target.value = maskCPF(e.target.value);
+            });
+
+            telefoneInput.addEventListener('input', (e) => {
+                e.target.value = maskTelefone(e.target.value);
+            });
+
+            emTelefoneInput.addEventListener('input', (e) => {
+                e.target.value = maskTelefone(e.target.value);
+            });
+
+            cepInput.addEventListener('input', (e) => {
+                e.target.value = maskCEP(e.target.value);
+            });
+
+
+            // --- Lógica do Botão Incluir Cadastro ---
+            btnIncluir.addEventListener('click', (e) => {
+                // Previne o comportamento padrão (que seria enviar se fosse um submit)
+                e.preventDefault();
+
+                // Verifica se o formulário é válido (campos 'required' preenchidos)
+                if (form.checkValidity()) {
+                    // Simula o envio de dados
+                    console.log('Dados do formulário a serem enviados (Simulação):');
+                    const formData = new FormData(form);
+                    for (let [key, value] of formData.entries()) {
+                        console.log(`${key}: ${value}`);
+                    }
+
+                    // Exibe mensagem de sucesso
+                    messageDiv.textContent = '✅ Cadastro incluído com sucesso! (Simulação)';
+                    messageDiv.className = 'success';
+                    messageDiv.style.display = 'block';
+
+                    // Limpa o formulário após 3 segundos
+                    setTimeout(() => {
+                        form.reset();
+                        messageDiv.style.display = 'none';
+                    }, 3000);
+
+                } else {
+                    // Se houver campos inválidos, o navegador deve exibir as mensagens de erro (devido ao 'required')
+                    // Mas forçamos o "reportValidity" para garantir a exibição em alguns casos
+                    form.reportValidity();
+
+                    // Exibe mensagem de erro
+                    messageDiv.textContent = '⚠️ Por favor, preencha todos os campos obrigatórios.';
+                    messageDiv.className = 'error';
+                    messageDiv.style.display = 'block';
+                }
+            });
+
+            // --- Lógica do Botão Desistir ---
+            btnDesistir.addEventListener('click', () => {
+                if (confirm('Tem certeza que deseja limpar o formulário e desistir do cadastro?')) {
+                    form.reset(); // Limpa todos os campos
+                    messageDiv.style.display = 'none'; // Esconde a mensagem
+                    alert('Cadastro cancelado. O formulário foi limpo.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

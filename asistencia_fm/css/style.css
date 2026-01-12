@@ -1,0 +1,88 @@
+*{
+    margin: 0px 0px 0px 0px;
+}
+
+hr{
+    border: 3px solid white;
+    width: 0px;
+    height: auto;
+    margin-left: 12px;
+    margin-right: 35px;
+}
+
+body{
+ background-image: url("/asistencia_fm/resources/imgs/pexels-pixabay-139398.jpg");   
+ 
+}
+/**
+// Centralizando. . . 
+.box_loginm{
+    border-radius: 25px;
+    padding: 25px 55px 25px 55px;
+    width: min-content;
+    background:rgba(201, 15, 15, 0.9);
+    color: white;
+    font-weight: bold;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+*/
+
+h1{
+    margin-bottom: 30px;
+}
+
+.img_logo_fm{
+    margin-top: 8px;
+    margin-right: 30px;
+    width: 200px;
+    height: 200px;
+    border-radius: 18px;
+}
+
+.box_login{
+    display: inline-flex;
+    background:rgba(201, 15, 15, 0.9);
+    color: white;
+    padding: 25px 55px 25px 55px;
+    font-weight: bold;
+    border-radius: 25px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+input{
+    font-weight: bold;
+    border: none;
+    font-size: 15px;
+    outline: none;
+    padding: 8px;
+    border-radius: 7px;
+}
+
+.btn_acesso{
+    color: white;
+    font-weight: bold;
+    width: 100%;
+    padding: 12px;
+    font-size: 20px;
+    background-color:rgb(63, 63, 43);
+    border-radius: 10px;
+}
+
+.btn_acesso:hover{
+    background-color: rgb(109, 76, 76);
+}
+
+
+.atendimento {
+    text-decoration: none;
+}
+
+tr:nth-child(even) {
+    background-color: #D6EEEE;
+  }

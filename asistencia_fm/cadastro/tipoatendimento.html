@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Atendimento</title>
+    <style>
+        /* ================================== */
+        /* CSS STYLES                         */
+        /* ================================== */
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            margin: 0;
+            padding: 20px;
+            color: #343a40;
+        }
+
+        h1 {
+            text-align: center;
+            color: #17a2b8; /* Cor do título */
+            margin-bottom: 25px;
+        }
+
+        /* Contêiner principal do formulário */
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        form fieldset {
+            border: none; /* Remove a borda padrão do fieldset para um visual mais limpo */
+            padding: 0;
+            margin: 0;
+        }
+
+        /* Agrupamento dos inputs */
+        .input-group {
+            display: flex;
+            gap: 15px; /* Espaço entre os inputs */
+            margin-bottom: 20px;
+        }
+
+        /* Estilo para os campos de texto */
+        input[type="text"] {
+            flex-grow: 1; /* Permite que os inputs ocupem o espaço disponível */
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #17a2b8;
+            box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
+            outline: none;
+        }
+
+        /* Estilo para a linha horizontal */
+        hr {
+            border: 0;
+            height: 1px;
+            background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+            margin: 20px 0;
+        }
+
+        /* Estilo para os botões */
+        input[type="submit"],
+        input[type="button"] {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        /* Botão Incluir */
+        input[type="submit"] {
+            background-color: #28a745; /* Verde */
+            color: white;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #218838;
+            transform: translateY(-1px);
+        }
+
+        /* Botão Desistir */
+        input[type="button"] {
+            background-color: #6c757d; /* Cinza */
+            color: white;
+        }
+
+        input[type="button"]:hover {
+            background-color: #5a6268;
+            transform: translateY(-1px);
+        }
+
+        /* Mensagem de Feedback (oculta por padrão) */
+        #feedbackMessage {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            display: none; /* Inicia oculto */
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Cadastro de Atendimento</h1>
+
+    <div class="container">
+        <form id="atendimentoForm">
+            <fieldset>
+                <div class="input-group">
+                    <input type="text" name="tipoatendimento" id="tipoatendimento"
+                        placeholder="Atendimento (Exemp: Aferição de Pressão)" required>
+                    <input type="text" name="medida" id="medida" placeholder="Medida (8/10 mm/Hg)" required>
+                </div>
+            </fieldset>
+            
+            <hr>
+
+            <input type="submit" value="Incluir" id="btnIncluir">
+            <input type="button" value="Desistir" id="btnDesistir">
+        </form>
+        <div id="feedbackMessage"></div>
+    </div>
+
+    <script>
+        // ==================================
+        //         JAVASCRIPT LOGIC
+        // ==================================
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('atendimentoForm');
+            const btnIncluir = document.getElementById('btnIncluir');
+            const btnDesistir = document.getElementById('btnDesistir');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            
+            // Campo de Medida para uma máscara básica (ex: Pressão Arterial)
+            const medidaInput = document.getElementById('medida');
+            
+            // --- Interação: Botão Desistir ---
+            btnDesistir.addEventListener('click', () => {
+                if (confirm('Tem certeza que deseja limpar o formulário?')) {
+                    form.reset(); // Limpa todos os campos
+                    // Opcional: Esconde qualquer mensagem anterior
+                    feedbackMessage.style.display = 'none';
+                    alert('Cadastro cancelado. Formulário limpo.');
+                }
+            });
+
+            // --- Interação: Simular Envio do Formulário ---
+            form.addEventListener('submit', (e) => {
+                // Impede o envio padrão do formulário (recarregar a página)
+                e.preventDefault();
+
+                // Verifica a validade (campos 'required')
+                if (form.checkValidity()) {
+                    // 1. Coleta e loga os dados (Simulação)
+                    const tipo = document.getElementById('tipoatendimento').value;
+                    const medida = document.getElementById('medida').value;
+                    
+                    console.log('--- Dados de Atendimento ---');
+                    console.log(`Tipo de Atendimento: ${tipo}`);
+                    console.log(`Medida Registrada: ${medida}`);
+                    console.log('----------------------------');
+                    
+                    // 2. Exibe mensagem de sucesso
+                    feedbackMessage.textContent = '✅ Atendimento registrado com sucesso! (Simulação)';
+                    feedbackMessage.className = 'success';
+                    feedbackMessage.style.display = 'block';
+
+                    // 3. Limpa o formulário após a simulação (após 3 segundos)
+                    setTimeout(() => {
+                        form.reset();
+                        feedbackMessage.style.display = 'none';
+                    }, 3000);
+
+                } else {
+                    // Força a exibição das mensagens de erro do navegador para campos obrigatórios
+                    form.reportValidity();
+                }
+            });
+            
+            // --- Interação: Máscara Opcional para o Campo Medida ---
+            // Máscara simplificada para "xx/yy un" (como 12/8 mm/Hg)
+            medidaInput.addEventListener('input', (e) => {
+                let value = e.target.value;
+                
+                // Padrão: aceita números, /, espaço e letras
+                value = value.replace(/[^0-9/.\s\w]/g, ''); 
+                
+                // Exemplo de Formatação Simples: se o usuário digitar 128, pode formatar para 12/8 (se for PA)
+                /*
+                let cleanValue = value.replace(/\D/g, ''); 
+                if (cleanValue.length > 2) {
+                    value = cleanValue.slice(0, 2) + '/' + cleanValue.slice(2);
+                }
+                */
+               
+                e.target.value = value;
+            });
+        });
+    </script>
+</body>
+</html>
